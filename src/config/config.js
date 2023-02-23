@@ -6,6 +6,6 @@ export const config = {
 		port: process.env.PORT ?? 3000
 	},
 	jwt: {
-		secret: process.env.SECRET
+		secret: process.env.JWT_SECRET
 	}
 };
