@@ -72,6 +72,10 @@ export class UserRepository {
 		return await this.userModel.findById(new Types.ObjectId(_id));
 	}
 
+	async findByUuid(uuid) {
+		return await this.userModel.findOne({uuid, deletedAt: null});
+	}
+
 	async update(userID, updateUserDto) {
 		return await this.userModel.updateOne({_id: userID, deletedAt: null}, {
 			...updateUserDto, updatedAt: new Date()

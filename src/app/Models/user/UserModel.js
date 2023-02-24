@@ -1,4 +1,4 @@
-import mongoose from "mongoose";
+import mongoose, { Types } from "mongoose";
 import {randomUUID} from "crypto";
 
 const Schema = mongoose.Schema;
@@ -37,5 +37,6 @@ const UserSchema = new Schema({
 	updatedAt: {type: Date, default: new Date()},
 	deletedAt: {type: Date, default: null},
 });
+
 
 export default mongoose.model("user", UserSchema);

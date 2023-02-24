@@ -4,21 +4,27 @@ import { SessionRepository } from "../../../sessions/Http/Repositories/SessionRe
 import UserTransformer from "../../Transformer/UserTransformer.js";
 import {badRequest, notFound, unprocessableEntity} from "../../../../common/Errors/HandleHttpErrors.js";
 import {validateUpdateUserDto} from "../../Validators/ValidateUpdateUserDto.js";
+import { FriendRequestRepository } from "../../../friendRequest/Http/Repositories/FriendRequestRepository.js";
 
 class UserService {
 
 	userRepository;
+	friendRequestRepository;
 	constructor() {
 		this.userRepository = new UserRepository();
 		this.sessionRepository = new SessionRepository();
+		this.friendRequestRepository = new FriendRequestRepository();
 	}
   
 	async create(createUserDto) {
 		try {
 			const user = await this.userRepository.create(createUserDto);
 
+			await this.friendRequestRepository.create(user._id);
+
 			return UserTransformer.userStored(user);
 		} catch(e) {
+			console.log(e);
 			throw new unprocessableEntity("email or username already exist");
 		}
 	}
