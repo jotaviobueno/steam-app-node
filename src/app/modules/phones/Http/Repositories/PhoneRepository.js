@@ -18,7 +18,7 @@ export class PhoneRepository {
 	async update(userID, _id, updatePhoneDto) {
 		const updateFields = {};
 		if (updatePhoneDto.number) updateFields["phones.$[elem].number"] = updatePhoneDto.number;
-		if (updatePhoneDto.ddi) updateFields["phones.$[elem].ddi"] = updatePhoneDto.ddi;
+		if (updatePhoneDto.dddi) updateFields["phones.$[elem].dddi"] = updatePhoneDto.dddi;
 		if (updatePhoneDto.ddd) updateFields["phones.$[elem].ddd"] = updatePhoneDto.ddd;
 
 		return await this.userModel.updateOne(
