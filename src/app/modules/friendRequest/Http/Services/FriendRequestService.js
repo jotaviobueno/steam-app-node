@@ -12,6 +12,9 @@ class FriendRequestService {
 	}
 
 	async sendFriendRequest(user, user_uuid) {
+		if (user.uuid === user_uuid)
+			throw new badRequest("you cannot send friend request to yourself");
+
 		const existingUser = await this.userRepository.findByUuid(user_uuid);
 
 		if (!existingUser) {
