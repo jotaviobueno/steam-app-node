@@ -6,3 +6,4 @@ import { handleUser } from "../app/Middlewares/user/HandleUser.js";
 export const phoneRouter = Router();
 
 phoneRouter.post("/", handleSession, handleUser, PhoneController.create);
+phoneRouter.delete("/", handleSession, handleUser, PhoneController.delete);

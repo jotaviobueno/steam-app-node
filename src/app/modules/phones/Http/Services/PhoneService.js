@@ -1,4 +1,4 @@
-import { badRequest, unprocessableEntity } from "../../../../common/Errors/HandleHttpErrors.js";
+import { badRequest, notFound, unprocessableEntity } from "../../../../common/Errors/HandleHttpErrors.js";
 import { PhoneRepository } from "../Repositories/PhoneRepository.js";
 
 class PhoneService {
@@ -22,6 +22,20 @@ class PhoneService {
 		if (phone.modifiedCount != 1)
 			throw new unprocessableEntity("unable to add your phone, please try again");
 
+		return true;
+	}
+
+	async delete(user, id) {	
+		const phonesIndex = user.phones.findIndex(phones => phones._id.toString() === id);
+
+		if (phonesIndex === -1)
+			throw new notFound("phone not found");
+
+		const deleted = await this.phoneRepository.remove(user._id, id);
+
+		if (deleted.modifiedCount != 1)
+			throw new unprocessableEntity("Unable to remove phones, please try again");
+	
 		return true;
 	}
 }

@@ -14,4 +14,10 @@ export class PhoneRepository {
 	async checkPhoneNumberExists(phone) {
 		return await this.userModel.findOne({"phones.number": phone});
 	}
+
+	async remove(userID, _id) {
+		return await this.userModel.updateOne({_id: userID}, { $pull: { phones: { _id, } } },
+			{ arrayFilters: [ { "phones._id": _id } ] }
+		);
+	}
 }

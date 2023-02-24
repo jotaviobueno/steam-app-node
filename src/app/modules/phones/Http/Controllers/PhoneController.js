@@ -19,6 +19,21 @@ class PhoneController {
 			return res.status(e.code).json({error: e.message});
 		}
 	}
+
+	async delete(req, res) {
+		const {user} = req;
+		const {id} = req.headers;
+
+		try {
+
+			await PhoneService.delete(user, id);
+
+			return res.status(204).json({success: ""});
+		} catch(e) {
+			return res.status(e.code).json({error: e.message});
+		}
+
+	}
 }
 
 export default new PhoneController;
