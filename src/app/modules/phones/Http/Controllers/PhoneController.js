@@ -20,6 +20,25 @@ class PhoneController {
 		}
 	}
 
+	async update(req, res) {
+		const {user} = req;
+		const {id} = req.headers;
+		const updatePhoneDto = {
+			dddi: req.body.dddi,
+			ddd: req.body.ddd,
+			number: req.body.number,
+		};
+
+		try {
+
+			await PhoneService.update(user, id, updatePhoneDto);
+
+			return res.status(204).json({success: ""});
+		} catch(e) {
+			return res.status(e.code).json({error: e.message});
+		}
+	}
+
 	async delete(req, res) {
 		const {user} = req;
 		const {id} = req.headers;

@@ -1,5 +1,6 @@
 import { badRequest, notFound, unprocessableEntity } from "../../../../common/Errors/HandleHttpErrors.js";
 import { PhoneRepository } from "../Repositories/PhoneRepository.js";
+import {validateUpdatePhoneDto} from "../../Validators/ValidateUpdatePhoneDto.js";
 
 class PhoneService {
 
@@ -21,6 +22,26 @@ class PhoneService {
 
 		if (phone.modifiedCount != 1)
 			throw new unprocessableEntity("unable to add your phone, please try again");
+
+		return true;
+	}
+
+	async update(user, id, updatePhoneDto) {
+		if (validateUpdatePhoneDto(updatePhoneDto))
+			throw new badRequest("request empty");
+
+		const phonesIndex = user.phones.findIndex(phones => phones._id.toString() === id);
+
+		if (phonesIndex === -1)
+			throw new notFound("phone not found");
+
+		if (updatePhoneDto.number && await this.phoneRepository.checkPhoneNumberExists(updatePhoneDto.number))
+			throw new unprocessableEntity("phone already exist");
+		
+		const update = await this.phoneRepository.update(user._id, id, updatePhoneDto);
+
+		if (update.modifiedCount != 1)
+			throw new unprocessableEntity("unable to , please try again");
 
 		return true;
 	}

@@ -3,13 +3,14 @@ import {UserRepository} from "../Repositories/UserRepository.js";
 import { SessionRepository } from "../../../sessions/Http/Repositories/SessionRepository.js";
 import UserTransformer from "../../Transformer/UserTransformer.js";
 import {badRequest, notFound, unprocessableEntity} from "../../../../common/Errors/HandleHttpErrors.js";
+import {validateUpdateUserDto} from "../../Validators/ValidateUpdateUserDto.js";
 
 class UserService {
 
 	userRepository;
 	constructor() {
 		this.userRepository = new UserRepository();
-		this.SessionRepository = new SessionRepository();
+		this.sessionRepository = new SessionRepository();
 	}
   
 	async create(createUserDto) {
@@ -35,6 +36,10 @@ class UserService {
 	}
 
 	async update(user, session, updateUserDto) {
+		
+		if (validateUpdateUserDto(updateUserDto))
+			throw new badRequest("request empty");
+
 		if (updateUserDto.password) {
 
 			if (await bcrypt.compare(updateUserDto.password, user.password))
@@ -58,7 +63,7 @@ class UserService {
 			throw new unprocessableEntity("Unable to update, please try again");
 
 		if (updateUserDto.password)
-			await this.SessionRepository.addToBlackList(session.uuid);
+			await this.sessionRepository.addToBlackList(session.uuid);
 
 		return true;
 	}
