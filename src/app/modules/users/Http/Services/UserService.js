@@ -30,7 +30,13 @@ class UserService {
 	}
 
 	async viewProfile(user) {
-		return UserTransformer.viewProfile(user);
+		let friendList = await this.friendRequestRepository.aggregateFriendRequests(user._id);
+
+		let newUser = UserTransformer.viewProfile(user);
+
+		newUser.friendList = friendList;
+		
+		return newUser;
 	}
 
 	async findOne(username) {
