@@ -81,6 +81,18 @@ export class FriendRequestRepository {
 					"sentFriendRequests.phones": 0,
 					"sentFriendRequests.address": 0,
 					"sentFriendRequests.__v": 0,
+
+					"receivedFriendRequests.first_name": 0,
+					"receivedFriendRequests.last_name": 0,
+					"receivedFriendRequests.email": 0,
+					"receivedFriendRequests.password": 0,
+					"receivedFriendRequests.createdAt": 0,
+					"receivedFriendRequests.updatedAt": 0,
+					"receivedFriendRequests.deletedAt": 0,
+					"receivedFriendRequests.uuid": 0,
+					"receivedFriendRequests.phones": 0,
+					"receivedFriendRequests.address": 0,
+					"receivedFriendRequests.__v": 0,
 				}
 			}
 		]);

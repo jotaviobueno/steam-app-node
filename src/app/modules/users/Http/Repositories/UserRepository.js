@@ -32,8 +32,7 @@ export class UserRepository {
 				}
 			},
 			{
-				$lookup:
-				{
+				$lookup: {
 					from: "posts",
 					localField: "_id",
 					foreignField: "userID",
@@ -41,26 +40,37 @@ export class UserRepository {
 				}
 			},
 			{
+				$lookup: {
+					from: "friendlists",
+					localField: "_id",
+					foreignField: "userID",
+					as: "friendlists"
+				}
+			},
+			{
 				$project: {
 					_id: 0,
-					first_name: 1,
-					last_name: 1,
-					username:1,
-					createdAt: 1,
-					updatedAt: 1,
-					posts: {
-						$map: {
-							input: "$posts",
-							as: "posts",
-							in: {
-								postID: "$$posts.postID",
-								title: "$$posts.title",
-								description: "$$posts.description",
-							}
-						}
-					}
+					__v: 0,
+					email: 0,
+					phones: 0,
+					address: 0,
+					password: 0,
+					deletedAt: 0,
+					updatedAt: 0,
+
+					"posts._id": 0,
+					"posts.userID": 0,
+					"posts.description": 0,
+					"posts.updatedAt": 0,
+					"posts.deletedAt": 0,
+					"posts.__v": 0,
+
+					"friendlists.userID": 0,
+					"friendlists.receivedFriendRequests": 0,
+					"friendlists.sentFriendRequests": 0,
+					"friendlists.__v": 0,
 				}
-			}
+			},
 		]);
 	}
 
