@@ -9,6 +9,7 @@ class UserTransformer {
 				address: user.email.address,
 				emailVerifiedAt: user.email.emailVerifiedAt,
 			},
+			avatar_url: user.avatar_url,
 			createdAt: user.createdAt,
 		};
 	}
@@ -23,6 +24,7 @@ class UserTransformer {
 				address: user.email.address,
 				emailVerifiedAt: user.email.emailVerifiedAt,
 			},
+			avatar_url: user.avatar_url,
 			phones: user.phones,
 			address: user.address,
 			createdAt: user.createdAt,
@@ -36,6 +38,7 @@ class UserTransformer {
 			first_name: user.first_name,
 			last_name: user.last_name,
 			username: user.username,
+			avatar_url: user.avatar_url,
 			createdAt: user.createdAt,
 		};
 	}

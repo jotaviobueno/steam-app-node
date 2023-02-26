@@ -29,6 +29,7 @@ const UserSchema = new Schema({
 	first_name: {type: String, required: true, minlength: 2, maxlength: 50},
 	last_name: {type: String, required: true, minlength: 2, maxlength: 50},
 	username: {type: String, required: true, unique: true, minlength: 3, maxlength: 20},
+	avatar_url: {type: String, default: "https://i.imgur.com/oBPXx0D.png" },
 	email: {type: Email},
 	phones: {type: [Phone]},
 	address: {type: [Address]},

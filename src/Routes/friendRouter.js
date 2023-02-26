@@ -6,3 +6,4 @@ import { handleUser } from "../app/Middlewares/user/HandleUser.js";
 export const friendRouter = Router();
 
 friendRouter.post("/send", handleSession, handleUser, FriendRequestController.sendFriendRequest);
+friendRouter.post("/accept", handleSession, handleUser, FriendRequestController.acceptFriendRequest);

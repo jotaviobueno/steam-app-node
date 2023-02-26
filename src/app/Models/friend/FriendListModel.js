@@ -4,14 +4,14 @@ const Schema = mongoose.Schema;
 
 const ReceivedFriendRequests = new Schema({
 	sentBy: {type: Types.ObjectId, ref: "users"},
+	id: {type: String},
 	friendRequestReceived: {type: Date, default: new Date()},
-	status: {type: String, default: "received"}
 });
 
 const SentFriendRequests = new Schema({
 	receivedBy: {type: Types.ObjectId, ref: "users"},
+	id: {type: String},
 	friendRequestReceived: {type: Date, default: new Date()},
-	status: {type: String, default: "sent"}
 });
 
 const Friend = new Schema({
