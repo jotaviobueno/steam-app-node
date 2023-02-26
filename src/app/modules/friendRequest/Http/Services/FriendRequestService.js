@@ -64,7 +64,7 @@ class FriendRequestService {
 		
 		return true;
 	}
-	
+
 	async acceptFriendRequest(user, friendRequestId) {
 		const receivedFriendRequestsList = await this.friendRequestRepository.findByUserId(user.id);
 
@@ -92,6 +92,33 @@ class FriendRequestService {
 		if (updateRecipient.modifiedCount === 1 && updateSender.modifiedCount === 1) 
 			return true;
 		
+		throw new unprocessableEntity("Failed to communicate the update, please try again");
+	}
+
+	async rejectFriendRequest(user, friendRequestId) {
+		const receivedFriendRequestsList = await this.friendRequestRepository.findByUserId(user.id);
+
+		const receivedRequestIndex = receivedFriendRequestsList.receivedFriendRequests.findIndex(received => received.id === friendRequestId);
+		if (receivedRequestIndex === -1)
+			throw new notFound("Friend request not found");
+
+		const friendRequestSender = await this.friendRequestRepository.findFrendRequestSent(friendRequestId);
+
+		const sentRequestIndex = friendRequestSender.sentFriendRequests.findIndex(
+			sent => sent.id === friendRequestId
+		);
+	
+		receivedFriendRequestsList.receivedFriendRequests.splice(receivedRequestIndex, 1);
+		friendRequestSender.sentFriendRequests.splice(sentRequestIndex, 1);
+
+		const [updateRecipient, updateSender] = await Promise.all([
+			this.friendRequestRepository.acceptFriendRequest(receivedFriendRequestsList._id, receivedFriendRequestsList),
+			this.friendRequestRepository.acceptFriendRequest(friendRequestSender._id, friendRequestSender)
+		]);
+
+		if (updateRecipient.modifiedCount === 1 && updateSender.modifiedCount === 1) 
+			return true;
+
 		throw new unprocessableEntity("Failed to communicate the update, please try again");
 	}
 }

@@ -7,3 +7,4 @@ export const friendRouter = Router();
 
 friendRouter.post("/send", handleSession, handleUser, FriendRequestController.sendFriendRequest);
 friendRouter.post("/accept", handleSession, handleUser, FriendRequestController.acceptFriendRequest);
+friendRouter.post("/reject", handleSession, handleUser, FriendRequestController.rejectFriendRequest);
