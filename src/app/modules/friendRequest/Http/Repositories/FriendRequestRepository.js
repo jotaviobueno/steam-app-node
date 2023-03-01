@@ -85,6 +85,14 @@ export class FriendRequestRepository {
 				}
 			},
 			{
+				$lookup: {
+					from: "wallets",
+					localField: "owner",
+					foreignField: "userID",
+					as: "wallet"
+				}
+			},
+			{
 				$addFields: {
 					"sentFriendRequests.username": { $arrayElemAt: [ "$receivedByUser.username", 0 ] },
 					"sentFriendRequests.uuid": { $arrayElemAt: [ "$receivedByUser.uuid", 0 ] },
@@ -103,17 +111,23 @@ export class FriendRequestRepository {
 					sentByUser: 0,
 					receivedByUser: 0,
 
-					"receivedFriendRequests": {
+					receivedFriendRequests: {
 						_id: 0,
 						sentBy: 0,
 					},
 
-					"sentFriendRequests": {
+					sentFriendRequests: {
 						_id: 0,
 						receivedBy: 0,
 					},
 
-					"friends": {
+					wallet: {
+						_id: 0,
+						ownerID: 0,
+						__v: 0
+					},
+
+					friends: {
 						_id: 0,
 						first_name: 0,
 						last_name: 0,
@@ -127,7 +141,7 @@ export class FriendRequestRepository {
 						__v: 0
 					},
 
-					"posts": {
+					posts: {
 						_id: 0,
 						userID: 0,
 						description: 0,

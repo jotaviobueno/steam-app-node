@@ -4,9 +4,9 @@ import UserController from "../app/modules/users/Http/Controllers/UserController
 import {handleSession} from "../app/Middlewares/session/HandleSession.js";
 import {handleUser} from "../app/Middlewares/user/HandleUser.js";
 
-export const userRoutes = Router();
+export const userRouter = Router();
 
-userRoutes.post("/", UserController.create);
-userRoutes.get("/", handleSession, handleUser, UserController.viewProfile);
-userRoutes.get("/:username", UserController.findOne);
-userRoutes.patch("/", handleSession, handleUser, UserController.update);
+userRouter.post("/", UserController.create);
+userRouter.get("/", handleSession, handleUser, UserController.viewProfile);
+userRouter.get("/:username", UserController.findOne);
+userRouter.patch("/", handleSession, handleUser, UserController.update);

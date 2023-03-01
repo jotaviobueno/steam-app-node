@@ -5,15 +5,18 @@ import UserTransformer from "../../Transformer/UserTransformer.js";
 import {badRequest, notFound, unprocessableEntity} from "../../../../common/Errors/HandleHttpErrors.js";
 import {validateUpdateUserDto} from "../../Validators/ValidateUpdateUserDto.js";
 import { FriendRequestRepository } from "../../../friendRequest/Http/Repositories/FriendRequestRepository.js";
+import {WalletRepository} from "../../../wallet/Http/Repositories/WalletRepository.js";
 
 class UserService {
 
 	userRepository;
 	friendRequestRepository;
+	walletRepository;
 	constructor() {
 		this.userRepository = new UserRepository();
 		this.sessionRepository = new SessionRepository();
 		this.friendRequestRepository = new FriendRequestRepository();
+		this.walletRepository = new WalletRepository();
 	}
   
 	async create(createUserDto) {
@@ -21,10 +24,10 @@ class UserService {
 			const user = await this.userRepository.create(createUserDto);
 
 			await this.friendRequestRepository.create(user._id);
+			await this.walletRepository.create(user._id);
 
 			return UserTransformer.userStored(user);
 		} catch(e) {
-			console.log(e);
 			throw new unprocessableEntity("email or username already exist");
 		}
 	}
